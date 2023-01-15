@@ -1,0 +1,111 @@
+<?xml version="1.0" ?>
+<robot name="reaction_wheel_pendulum" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<xacro:include filename="$(find reaction_wheel_pendulum_description)/urdf/materials.xacro" />
+<xacro:include filename="$(find reaction_wheel_pendulum_description)/urdf/reaction_wheel_pendulum.trans" />
+<xacro:include filename="$(find reaction_wheel_pendulum_description)/urdf/reaction_wheel_pendulum.gazebo" />
+<link name="base_link">
+  <inertial>
+    <origin xyz="0.0032225920282034333 -3.4299415966115704e-18 0.011947016988234405" rpy="0 0 0"/>
+    <mass value="0.01097941872610551"/>
+    <inertia ixx="2e-06" iyy="2e-06" izz="2e-06" ixy="-0.0" iyz="-0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://reaction_wheel_pendulum_description/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="abs_white"/>
+  </visual>
+  <collision>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://reaction_wheel_pendulum_description/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="pendulum_1">
+  <inertial>
+    <origin xyz="0.013444451589609451 -8.5147131031773145e-16 0.09631734258207211" rpy="0 0 0"/>
+    <mass value="0.13113908956723577"/>
+    <inertia ixx="0.000435" iyy="0.000435" izz="1.4e-05" ixy="-0.0" iyz="-0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.015 -0.0 -0.0225" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://reaction_wheel_pendulum_description/meshes/pendulum_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="paint_enamel_glossy_blue"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.015 -0.0 -0.0225" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://reaction_wheel_pendulum_description/meshes/pendulum_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="reaction_wheel_1">
+  <inertial>
+    <origin xyz="-0.003499999999999996 5.2110442774784916e-17 8.881784197001252e-16" rpy="0 0 0"/>
+    <mass value="0.07877708723089058"/>
+    <inertia ixx="0.000107" iyy="5.5e-05" izz="5.5e-05" ixy="0.0" iyz="0.0" ixz="0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.011 0.0 -0.2125" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://reaction_wheel_pendulum_description/meshes/reaction_wheel_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="paint_enamel_glossy_yellow"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.011 0.0 -0.2125" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://reaction_wheel_pendulum_description/meshes/reaction_wheel_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="gyroscope_1">
+  <inertial>
+    <origin xyz="-0.0010000000000000026 -1.7763568394002505e-17 -4.163336342344337e-17" rpy="0 0 0"/>
+    <mass value="0.0017599999999999998"/>
+    <inertia ixx="0.0" iyy="0.0" izz="0.0" ixy="0.0" iyz="0.0" ixz="0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.016 0.0 -0.1175" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://reaction_wheel_pendulum_description/meshes/gyroscope_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="paint_enamel_glossy_red"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.016 0.0 -0.1175" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://reaction_wheel_pendulum_description/meshes/gyroscope_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<joint name="pivot" type="continuous">
+  <origin xyz="0.015 0.0 0.0225" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="pendulum_1"/>
+  <axis xyz="-1.0 0.0 0.0"/>
+</joint>
+
+<joint name="reaction_wheel" type="continuous">
+  <origin xyz="-0.004 -0.0 0.19" rpy="0 0 0"/>
+  <parent link="pendulum_1"/>
+  <child link="reaction_wheel_1"/>
+  <axis xyz="-1.0 0.0 -0.0"/>
+</joint>
+
+<joint name="gyro_connected" type="fixed">
+  <origin xyz="0.001 -0.0 0.095" rpy="0 0 0"/>
+  <parent link="pendulum_1"/>
+  <child link="gyroscope_1"/>
+</joint>
+
+</robot>

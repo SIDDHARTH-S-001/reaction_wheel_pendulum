@@ -1,0 +1,9 @@
+<launch>
+
+<rosparam file="$(find reaction_wheel_pendulum_description)/launch/controller.yaml" command="load"/>
+<node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" ns="reaction_wheel_pendulum" args="pivot_position_controller reaction_wheel_position_controller joint_state_controller "/>
+<node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
+  <remap from="/joint_states" to="/reaction_wheel_pendulum/joint_states"/>
+</node>
+
+</launch>
